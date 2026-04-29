@@ -21,12 +21,7 @@ public class Nom {
         return nomComplet;
     }
 
-    public int getNbr() {
-        return nomComplet.length();
-    }
 
-    @Override
-    public String toString() {
-        return nomComplet;
-    }
+
+
 }
