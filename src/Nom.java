@@ -1,12 +1,16 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Nom {
-    private int id;
-    private String nom;
-    private String nomComplet;
+    final private int id;
+    final private String nom;
+    private List<String> nomPretraite= new ArrayList<>();;
+    private String sourceList;
 
     public Nom(int id, String nom, String nomComplet) {
         this.id = id;
         this.nom = nom;
-        this.nomComplet = nomComplet;
+        this.nomPretraite.add(nom);
     }
 
     public int getId() {
@@ -17,16 +21,16 @@ public class Nom {
         return nom;
     }
 
-    public String getNomComplet() {
-        return nomComplet;
+    public String getDernierNomPretraite() {
+        return nomPretraite;
     }
 
-    public int getNbr() {
-        return nomComplet.length();
+
+    public String getSourceList() {
+        return sourceList;
     }
 
-    @Override
-    public String toString() {
-        return nomComplet;
-    }
+
+
+
 }
