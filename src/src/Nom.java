@@ -1,48 +1,34 @@
-import java.util.ArrayList;
-import java.util.List;
 public class Nom {
     private int id;
     private String nom;
-    private String nomComplet;
-    private List<String> nomPretraite = new ArrayList<>();
+    private String nomPretraite;
     private String sourceList;
 
-    public Nom(int id, String nom, String nomComplet) {
+    public Nom(int id, String nom) {
         this.id = id;
         this.nom = nom;
-        this.nomComplet = nomComplet;
-        if (nom != null) this.nomPretraite.add(nom);
+        this.nomPretraite = null;
     }
 
     public int getId() { return id; }
 
     public String getNom() { return nom; }
 
-    public String getNomComplet() { return nomComplet; }
-
     public String getSourceList() { return sourceList; }
 
-    public String getDernierNomPretraite() {
-        if (nomPretraite.isEmpty()) return null;
-        return nomPretraite.get(nomPretraite.size() - 1);
-    }
-
-    public List<String> getNomPretraite() { return nomPretraite; }
+    public String getNomPretraite() { return nomPretraite; }
 
     public void setSourceList(String sourceList) {
         this.sourceList = sourceList;
     }
 
-    public void addNomPretraite(String nomNormalise) {
-        if (nomNormalise != null) this.nomPretraite.add(nomNormalise);
-    }
+    public void setNomPretraite(String nomPretraite) { this.nomPretraite = nomPretraite; }
 
     @Override
     public String toString() {
         return "Nom{id=" + id
              + ", nom='" + nom + "'"
-             + ", nomComplet='" + nomComplet + "'"
-             + ", pretraite='" + getDernierNomPretraite() + "'}";
+             + ", pretraite='" + nomPretraite + "'}";
     }
 
     @Override

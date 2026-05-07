@@ -22,12 +22,8 @@ public class ComparateurNom {
     }
 
     private String resolveChaine(Nom n) {
-        String pretraite = n.getDernierNomPretraite();
+        String pretraite = n.getNomPretraite();
         if (pretraite != null && !pretraite.isEmpty()) return pretraite;
-
-        String complet = n.getNomComplet();
-        if (complet != null && !complet.isEmpty()) return complet;
-
         return n.getNom() != null ? n.getNom() : "";
     }
 

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-public class PretraiteurNom {
+public class PretraiteurNom implements Pretraiteur {
 
     private final PretraiteurChaine pretraiteurChaine;
 
@@ -15,18 +15,12 @@ public class PretraiteurNom {
     public Nom pretraiterNom(Nom nom) {
         if (nom == null) return null;
 
-        String brut = nom.getNomComplet() != null
-                ? nom.getNomComplet()
-                : nom.getNom();
-
+        String brut = nom.getNom();
         String normalise = pretraiteurChaine.pretraiterChaine(brut);
-
         normalise = normaliserOrdre(normalise);
 
-        Nom resultat = new Nom(nom.getId(), nom.getNom(), nom.getNomComplet());
-        resultat.addNomPretraite(normalise);
-
-        return resultat;
+        nom.setNomPretraite(normalise);
+        return nom;
     }
 
     public List<Nom> pretraiterListe(List<Nom> noms) {
@@ -44,5 +38,14 @@ public class PretraiteurNom {
         if (tokens.length < 2) return normalise;
 
         return normalise;
+    }
+
+    @Override
+    public String pretraiter(String chaine) {
+        if (chaine == null) return "";
+        Nom nom = new Nom(0, chaine);
+        pretraiterNom(nom);
+        String resultat = nom.getNomPretraite();
+        return resultat != null ? resultat : "";
     }
 }

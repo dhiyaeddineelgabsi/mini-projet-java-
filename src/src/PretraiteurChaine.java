@@ -2,7 +2,7 @@ import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-public class PretraiteurChaine {
+public class PretraiteurChaine implements Pretraiteur {
 
     private static final Set<String> MOTS_VIDES = new HashSet<>(Arrays.asList(
         "ben", "bel", "bou", "el", "al", "de", "du", "la", "le", "les",
@@ -17,6 +17,11 @@ public class PretraiteurChaine {
         s = supprimerMotsVides(s);
         s = normaliserEspaces(s);
         return s;
+    }
+
+    @Override
+    public String pretraiter(String chaine) {
+        return pretraiterChaine(chaine);
     }
 
     public String mettreEnMinuscules(String s) {
