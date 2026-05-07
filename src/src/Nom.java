@@ -26,9 +26,14 @@ public class Nom {
 
     @Override
     public String toString() {
-        return "Nom{id=" + id
-             + ", nom='" + nom + "'"
-             + ", pretraite='" + nomPretraite + "'}";
+                StringBuilder sb = new StringBuilder();
+                sb.append("Nom{id=").append(id)
+                    .append(", nom='").append(nom).append("'");
+                if (nomPretraite != null) {
+                        sb.append(", nomPretraite='").append(nomPretraite).append("'");
+                }
+                sb.append("}");
+                return sb.toString();
     }
 
     @Override
