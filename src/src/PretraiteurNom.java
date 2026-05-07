@@ -1,51 +1,34 @@
 import java.util.ArrayList;
 import java.util.List;
-public class PretraiteurNom implements Pretraiteur {
+public class PretraiteurNom implements IPretraiteurNom {
 
-    private final PretraiteurChaine pretraiteurChaine;
+    private final IPretraiteurChaine pretraiteurChaine;
 
     public PretraiteurNom() {
         this.pretraiteurChaine = new PretraiteurChaine();
     }
 
-    public PretraiteurNom(PretraiteurChaine pretraiteurChaine) {
+    public PretraiteurNom(IPretraiteurChaine pretraiteurChaine) {
         this.pretraiteurChaine = pretraiteurChaine;
     }
 
-    public Nom pretraiterNom(Nom nom) {
+    @Override
+    public Nom pretraiter(Nom nom) {
         if (nom == null) return null;
 
         String brut = nom.getNom();
-        String normalise = pretraiteurChaine.pretraiterChaine(brut);
-        normalise = normaliserOrdre(normalise);
+        String normalise = pretraiteurChaine.pretraiter(brut);
 
         nom.setNomPretraite(normalise);
         return nom;
     }
 
+    @Override
     public List<Nom> pretraiterListe(List<Nom> noms) {
         List<Nom> resultat = new ArrayList<>();
         for (Nom n : noms) {
-            resultat.add(pretraiterNom(n));
+            resultat.add(pretraiter(n));
         }
         return resultat;
-    }
-
-    private String normaliserOrdre(String normalise) {
-        if (normalise == null || normalise.isEmpty()) return normalise;
-
-        String[] tokens = normalise.trim().split("\\s+");
-        if (tokens.length < 2) return normalise;
-
-        return normalise;
-    }
-
-    @Override
-    public String pretraiter(String chaine) {
-        if (chaine == null) return "";
-        Nom nom = new Nom(0, chaine);
-        pretraiterNom(nom);
-        String resultat = nom.getNomPretraite();
-        return resultat != null ? resultat : "";
     }
 }

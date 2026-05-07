@@ -1,3 +1,3 @@
-public interface Pretraiteur {
+public interface IPretraiteurChaine {
     String pretraiter(String chaine);
 }
