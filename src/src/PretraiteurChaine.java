@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 public class PretraiteurChaine {
 
-    // Mots vides specifiques aux noms arabes/francais/tunisiens
     private static final Set<String> MOTS_VIDES = new HashSet<>(Arrays.asList(
         "ben", "bel", "bou", "el", "al", "de", "du", "la", "le", "les",
         "dit", "dit", "dite", "saint", "sainte", "bint", "abu", "ould"
@@ -25,12 +24,9 @@ public class PretraiteurChaine {
         return s.toLowerCase();
     }
 
-    // Supprime les accents via decomposition Unicode (NFD).
     public String supprimerAccents(String s) {
         if (s == null) return "";
-        // NFD decompose les caracteres accentues en lettre + diacritique
         String nfd = Normalizer.normalize(s, Normalizer.Form.NFD);
-        // \p{InCombiningDiacriticalMarks} cible uniquement les diacritiques
         return nfd.replaceAll("\\p{InCombiningDiacriticalMarks}", "");
     }
 
@@ -39,7 +35,6 @@ public class PretraiteurChaine {
         return s.replaceAll("[^a-z0-9\\s]", "");
     }
 
-    // Retire les particules listées dans MOTS_VIDES.
     public String supprimerMotsVides(String s) {
         if (s == null || s.isEmpty()) return "";
         String[] tokens = s.trim().split("\\s+");

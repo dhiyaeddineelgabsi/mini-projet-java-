@@ -37,7 +37,6 @@ public class PretraiteurNom {
         return resultat;
     }
 
-    // Placeholder: inversion fiable necessite la casse originale.
     private String normaliserOrdre(String normalise) {
         if (normalise == null || normalise.isEmpty()) return normalise;
 

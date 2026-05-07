@@ -22,7 +22,6 @@ public class Nom {
 
     public String getSourceList() { return sourceList; }
 
-    // Derniere version pretraitee, ou null si vide.
     public String getDernierNomPretraite() {
         if (nomPretraite.isEmpty()) return null;
         return nomPretraite.get(nomPretraite.size() - 1);
