@@ -1,4 +1,4 @@
-/*
+
 import java.util.List;
 
 public class MoteurDeMatching {
@@ -16,6 +16,5 @@ public class MoteurDeMatching {
     public void setSeuil(double seuil) {}
 
     public Configuration getConfig() {}
-}
 
- */
+

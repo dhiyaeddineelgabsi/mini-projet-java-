@@ -1,4 +1,4 @@
-/*
+
 public class ComparateurNom {
 
     private final ComparateurChaine comparateurChaine;
@@ -44,4 +44,3 @@ public class ComparateurNom {
 }
 
 
- */
