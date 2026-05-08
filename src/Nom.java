@@ -1,13 +1,21 @@
+import java.util.ArrayList;
+import java.util.List;
 public class Nom {
     private int id;
     private String nom;
-    private String nomPretraite;
+    private List<String> nomPretraite = new ArrayList<>();
     private String sourceList;
 
     public Nom(int id, String nom) {
         this.id = id;
         this.nom = nom;
-        this.nomPretraite = null;
+        if (nom != null) this.nomPretraite.add(nom);
+    }
+    public Nom(int id, String nom, String sourceList) {
+        this.id = id;
+        this.nom = nom;
+        this.sourceList=sourceList;
+        if (nom != null) this.nomPretraite.add(nom);
     }
 
     public int getId() { return id; }
@@ -16,24 +24,27 @@ public class Nom {
 
     public String getSourceList() { return sourceList; }
 
-    public String getNomPretraite() { return nomPretraite; }
+    // Derniere version pretraitee, ou null si vide.
+    public String getDernierNomPretraite() {
+        if (nomPretraite.isEmpty()) return null;
+        return nomPretraite.get(nomPretraite.size() - 1);
+    }
+
+    public List<String> getNomPretraite() { return nomPretraite; }
 
     public void setSourceList(String sourceList) {
         this.sourceList = sourceList;
     }
 
-    public void setNomPretraite(String nomPretraite) { this.nomPretraite = nomPretraite; }
+    public void addNomPretraite(String nomNormalise) {
+        if (nomNormalise != null) this.nomPretraite.add(nomNormalise);
+    }
 
     @Override
     public String toString() {
-                StringBuilder sb = new StringBuilder();
-                sb.append("Nom{id=").append(id)
-                    .append(", nom='").append(nom).append("'");
-                if (nomPretraite != null) {
-                        sb.append(", nomPretraite='").append(nomPretraite).append("'");
-                }
-                sb.append("}");
-                return sb.toString();
+        return "Nom{id=" + id
+             + ", nom='" + nom + "'"
+             + ", pretraite='" + getDernierNomPretraite() + "'}";
     }
 
     @Override
