@@ -4,13 +4,21 @@ import java.util.List;
 public class PretraiteurNom implements IPretraiteurNom {
 
     private final IPretraiteurChaine pretraiteurChaine;
+    private final ITokeniseur tokeniseur;
 
     public PretraiteurNom() {
         this.pretraiteurChaine = new PretraiteurChaine();
+        this.tokeniseur = new TokeniseurSimple();
     }
 
     public PretraiteurNom(IPretraiteurChaine pretraiteurChaine) {
         this.pretraiteurChaine = pretraiteurChaine;
+        this.tokeniseur = new TokeniseurSimple();
+    }
+
+    public PretraiteurNom(IPretraiteurChaine pretraiteurChaine, ITokeniseur tokeniseur) {
+        this.pretraiteurChaine = pretraiteurChaine;
+        this.tokeniseur = tokeniseur;
     }
 
     @Override
@@ -19,8 +27,11 @@ public class PretraiteurNom implements IPretraiteurNom {
 
         String brut = nom.getNom();
         String normalise = pretraiteurChaine.pretraiter(brut);
+        nom.addNomPretraite(normalise);
 
-        nom.setNomPretraite(normalise);
+        List<String> tokens = tokeniseur.tokeniser(normalise);
+        nom.setTokens(tokens);
+
         return nom;
     }
 
