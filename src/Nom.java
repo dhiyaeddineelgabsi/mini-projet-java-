@@ -4,6 +4,7 @@ public class Nom {
     private int id;
     private String nom;
     private List<String> nomPretraite = new ArrayList<>();
+    private List<String> tokens = new ArrayList<>();
     private String sourceList;
 
     public Nom(int id, String nom) {
@@ -32,6 +33,10 @@ public class Nom {
 
     public List<String> getNomPretraite() { return nomPretraite; }
 
+    public List<String> getTokens() {
+        return tokens;
+    }
+
     public void setSourceList(String sourceList) {
         this.sourceList = sourceList;
     }
@@ -40,11 +45,25 @@ public class Nom {
         if (nomNormalise != null) this.nomPretraite.add(nomNormalise);
     }
 
+    public void setTokens(List<String> tokens) {
+        this.tokens = tokens;
+    }
+
+    public boolean estTokenise() {
+        return tokens != null && !tokens.isEmpty();
+    }
+
     @Override
     public String toString() {
-        return "Nom{id=" + id
-             + ", nom='" + nom + "'"
-             + ", pretraite='" + getDernierNomPretraite() + "'}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Nom{id=").append(id)
+          .append(", nom='").append(nom).append("'")
+          .append(", pretraite='").append(getDernierNomPretraite()).append("'");
+        if (!tokens.isEmpty()) {
+            sb.append(", tokens=").append(tokens);
+        }
+        sb.append("}");
+        return sb.toString();
     }
 
     @Override
