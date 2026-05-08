@@ -1,3 +1,4 @@
+/*
 public class ComparateurNom {
 
     private final ComparateurChaine comparateurChaine;
@@ -41,3 +42,6 @@ public class ComparateurNom {
         return new double[]{jw, lev, sdx, global};
     }
 }
+
+
+ */

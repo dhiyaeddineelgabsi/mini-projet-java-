@@ -1,3 +1,4 @@
+/*
 public class Configuration {
 
 
@@ -19,3 +20,6 @@ public class Configuration {
     public void setPretraiteur(PretraiteurNom p)   {}
     public void setGenerateur(GenerateurCandidat g){}
 }
+
+
+ */

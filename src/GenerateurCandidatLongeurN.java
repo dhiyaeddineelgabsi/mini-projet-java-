@@ -16,8 +16,8 @@ public class GenerateurCandidatLongeurN implements GenerateurCandidat {
 
         int longeur = nomRecherche.getNom().length();
         for (Nom targetNom : listselectionne){
-            if (longeur - n < targetNom.getNom().length() && targetNom.getNom().length() < longeur + n){
-                CoupleNom coupleCandidat=new CoupleNom(nomRecherche,targetNom);
+            if (Math.abs(longeur - targetNom.getNom().length()) <= n) {
+                CoupleNom coupleCandidat = new CoupleNom(nomRecherche, targetNom);
                 candidats.add(coupleCandidat);
             }
         }

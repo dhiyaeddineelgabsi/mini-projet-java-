@@ -1,3 +1,4 @@
+/*
 import java.util.Scanner;
 
 public class MainPretraiteur {
@@ -58,3 +59,5 @@ public class MainPretraiteur {
         scanner.close();
     }
 }
+
+ */
