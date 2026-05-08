@@ -1,0 +1,7 @@
+public class EspacesPretraiteur implements IPretraiteurChaine {
+    @Override
+    public String pretraiter(String chaine) {
+        if (chaine == null) return "";
+        return chaine.trim().replaceAll("\\s+", " ");
+    }
+}
