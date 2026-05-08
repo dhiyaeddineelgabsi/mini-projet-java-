@@ -3,14 +3,18 @@ import java.util.List;
 public class Nom {
     private int id;
     private String nom;
-    private String nomComplet;
     private List<String> nomPretraite = new ArrayList<>();
     private String sourceList;
 
-    public Nom(int id, String nom, String nomComplet) {
+    public Nom(int id, String nom) {
         this.id = id;
         this.nom = nom;
-        this.nomComplet = nomComplet;
+        if (nom != null) this.nomPretraite.add(nom);
+    }
+    public Nom(int id, String nom, String sourceList) {
+        this.id = id;
+        this.nom = nom;
+        this.sourceList=sourceList;
         if (nom != null) this.nomPretraite.add(nom);
     }
 
@@ -18,7 +22,6 @@ public class Nom {
 
     public String getNom() { return nom; }
 
-    public String getNomComplet() { return nomComplet; }
 
     public String getSourceList() { return sourceList; }
 
@@ -42,7 +45,6 @@ public class Nom {
     public String toString() {
         return "Nom{id=" + id
              + ", nom='" + nom + "'"
-             + ", nomComplet='" + nomComplet + "'"
              + ", pretraite='" + getDernierNomPretraite() + "'}";
     }
 
