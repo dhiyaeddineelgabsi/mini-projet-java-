@@ -21,18 +21,12 @@ public class ComparateurNom {
         return comparateurChaine.comparerChaine(s1, s2);
     }
 
-    // Priorite: nomPretraite -> nomComplet -> nom
     private String resolveChaine(Nom n) {
-        String pretraite = n.getDernierNomPretraite();
+        String pretraite = n.getNomPretraite();
         if (pretraite != null && !pretraite.isEmpty()) return pretraite;
-
-        String complet = n.getNomComplet();
-        if (complet != null && !complet.isEmpty()) return complet;
-
         return n.getNom() != null ? n.getNom() : "";
     }
 
-    // Retourne [jaroWinkler, levenshtein, soundex, scoreGlobal]
     public double[] comparerNomDetail(Nom n1, Nom n2) {
         if (n1 == null || n2 == null) return new double[]{0, 0, 0, 0};
 

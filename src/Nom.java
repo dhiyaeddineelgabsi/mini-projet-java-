@@ -22,7 +22,6 @@ public class Nom {
 
     public String getNom() { return nom; }
 
-
     public String getSourceList() { return sourceList; }
 
     // Derniere version pretraitee, ou null si vide.

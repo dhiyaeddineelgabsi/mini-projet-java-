@@ -1,19 +1,14 @@
-// Sources: tdebatty/java-string-similarity (Apache 2.0), ssaurel/Soundex (public domain).
 public class ComparateurChaine {
 
-    // Poids des trois algorithmes (somme = 1.0)
     private static final double POIDS_JARO_WINKLER = 0.5;
     private static final double POIDS_LEVENSHTEIN  = 0.3;
     private static final double POIDS_SOUNDEX      = 0.2;
 
-    // Constantes Jaro-Winkler (depuis tdebatty)
     private static final double SEUIL_JW  = 0.7;
     private static final double COEF_JW   = 0.1;
     private static final int    THREE     = 3;
 
     public ComparateurChaine() {}
-
-    // Methode principale.
 
     public double comparerChaine(String s1, String s2) {
         if (s1 == null || s2 == null) return 0.0;
@@ -28,8 +23,6 @@ public class ComparateurChaine {
              + POIDS_LEVENSHTEIN  * scoreLev
              + POIDS_SOUNDEX      * scoreSdx;
     }
-
-    // Jaro-Winkler (extrait de tdebatty/java-string-similarity).
 
     public double jaroWinkler(String s1, String s2) {
         if (s1.equals(s2)) return 1.0;
@@ -50,7 +43,6 @@ public class ComparateurChaine {
         return jw;
     }
 
-    // Retourne {matches, transpositions/2, prefix, maxLen}.
     private int[] matchesJaro(String s1, String s2) {
         String max = s1.length() > s2.length() ? s1 : s2;
         String min = s1.length() > s2.length() ? s2 : s1;
@@ -98,8 +90,6 @@ public class ComparateurChaine {
         return new int[]{matches, transpositions / 2, prefix, max.length()};
     }
 
-    // Levenshtein normalise (extrait de tdebatty/java-string-similarity).
-
     public double levenshteinNormalise(String s1, String s2) {
         if (s1.equals(s2)) return 1.0;
         int maxLen = Math.max(s1.length(), s2.length());
@@ -127,23 +117,18 @@ public class ComparateurChaine {
         return dp[len1][len2];
     }
 
-    // Soundex (extrait du gist ssaurel/Soundex).
-
     public double soundexScore(String s1, String s2) {
         if (s1.isEmpty() || s2.isEmpty()) return 0.0;
-        // Prendre le premier token si plusieurs mots
         String t1 = s1.split("\\s+")[0];
         String t2 = s2.split("\\s+")[0];
         return encoderSoundex(t1).equals(encoderSoundex(t2)) ? 1.0 : 0.0;
     }
 
-    // Code Soundex sur 4 caracteres.
     public String encoderSoundex(String s) {
         if (s == null || s.isEmpty()) return "0000";
         char[] x = s.toUpperCase().toCharArray();
         String output = "" + x[0];
 
-        // Remplacer chaque lettre par son chiffre Soundex
         for (int i = 0; i < x.length; i++) {
             switch (x[i]) {
                 case 'B': case 'F': case 'P': case 'V':
@@ -164,14 +149,12 @@ public class ComparateurChaine {
             }
         }
 
-        // Supprimer les doublons adjacents et les zeros
         for (int i = 1; i < x.length; i++) {
             if (x[i] != x[i - 1] && x[i] != '0') {
                 output += x[i];
             }
         }
 
-        // Padder a 4 caracteres ou tronquer
         output = output + "0000";
         return output.substring(0, 4);
     }

@@ -18,4 +18,4 @@ public class Configuration {
     public void setSeuil(double seuil)             {}
     public void setPretraiteur(PretraiteurNom p)   {}
     public void setGenerateur(GenerateurCandidat g){}
-}    
+}
