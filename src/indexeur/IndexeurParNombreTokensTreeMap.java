@@ -1,3 +1,5 @@
+package indexeur;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -10,13 +12,16 @@ public class IndexeurParNombreTokensTreeMap implements Indexeur<Integer> {
     public TreeMap<Integer, List<Nom>> indexer(List<Nom> noms) {
         TreeMap<Integer, List<Nom>> index = new TreeMap<>();
 
+        if (noms == null) {
+            return index;
+        }
+
         for (Nom nom : noms) {
-            if (!nom.estTokenise()) {
+            if (nom == null || !nom.estTokenise()) {
                 continue;
             }
 
             int nombreTokens = nom.getNombreTokens();
-
             index.computeIfAbsent(nombreTokens, k -> new ArrayList<>()).add(nom);
         }
 

@@ -1,24 +1,50 @@
 package generator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.TreeMap;
-import nom.*;
 
+import indexeur.Indexeur;
+import indexeur.IndexeurParNombreTokensTreeMap;
 import nom.CoupleNom;
 import nom.Nom;
 
 public class GenerateurCandidatNombreTokensTreeMap implements GenerateurCandidat {
 
-    private TreeMap<Integer, List<Nom>> index;
-    private int marge;
+    private final Indexeur<Integer> indexeur;
+    private final NavigableMap<Integer, List<Nom>> index;
+    private final int marge;
+
+    public GenerateurCandidatNombreTokensTreeMap() {
+        this(0);
+    }
+
+    public GenerateurCandidatNombreTokensTreeMap(int marge) {
+        this(new IndexeurParNombreTokensTreeMap(), marge);
+    }
 
     public GenerateurCandidatNombreTokensTreeMap(TreeMap<Integer, List<Nom>> index, int marge) {
         if (marge < 0) {
-            throw new IllegalArgumentException("La marge doit être >= 0");
+            throw new IllegalArgumentException("La marge doit etre >= 0");
         }
 
+        this.indexeur = null;
         this.index = index;
+        this.marge = marge;
+    }
+
+    public GenerateurCandidatNombreTokensTreeMap(Indexeur<Integer> indexeur, int marge) {
+        if (marge < 0) {
+            throw new IllegalArgumentException("La marge doit etre >= 0");
+        }
+        if (indexeur == null) {
+            throw new IllegalArgumentException("L'indexeur ne peut pas etre null");
+        }
+
+        this.indexeur = indexeur;
+        this.index = null;
         this.marge = marge;
     }
 
@@ -26,16 +52,21 @@ public class GenerateurCandidatNombreTokensTreeMap implements GenerateurCandidat
     public List<CoupleNom> genererCandidats(Nom nomRecherche, List<Nom> listeSelectionnee) {
         List<CoupleNom> candidats = new ArrayList<>();
 
-        if (!nomRecherche.estTokenise()) {
+        if (nomRecherche == null || !nomRecherche.estTokenise()) {
             return candidats;
         }
 
-        int nbTokensRecherche = nomRecherche.getNombreTokens();
+        NavigableMap<Integer, List<Nom>> indexActif = index;
 
+        if (indexActif == null) {
+            indexActif = new TreeMap<>(indexeur.indexer(listeSelectionnee));
+        }
+
+        int nbTokensRecherche = nomRecherche.getNombreTokens();
         int min = Math.max(0, nbTokensRecherche - marge);
         int max = nbTokensRecherche + marge;
 
-        Map<Integer, List<Nom>> sousIndex = index.subMap(min, true, max, true);
+        Map<Integer, List<Nom>> sousIndex = indexActif.subMap(min, true, max, true);
 
         for (List<Nom> noms : sousIndex.values()) {
             for (Nom target : noms) {

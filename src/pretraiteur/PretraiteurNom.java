@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import nom.Nom; 
 
-import Tokenizeurs.ITokeniseur;
-import Tokenizeurs.TokeniseurSimple;
+import tokenizeurs.ITokeniseur;
+import tokenizeurs.TokeniseurSimple;
 
 public class PretraiteurNom implements IPretraiteurNom {
 

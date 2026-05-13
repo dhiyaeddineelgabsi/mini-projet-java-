@@ -1,74 +1,45 @@
 package generator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
+import indexeur.Indexeur;
+import indexeur.IndexeurParTokenHashMap;
 import nom.CoupleNom;
 import nom.Nom;
 
 public class GenerateurCandidatIndexDeuxTokensHashMap implements GenerateurCandidat {
 
-    private static final int SEUIL_TOKENS_COMMUNS = 2;
+    private final Indexeur<String> indexeur;
+    private final int seuilTokensCommuns;
+
+    public GenerateurCandidatIndexDeuxTokensHashMap() {
+        this(2);
+    }
+
+    public GenerateurCandidatIndexDeuxTokensHashMap(int seuilTokensCommuns) {
+        this(new IndexeurParTokenHashMap(), seuilTokensCommuns);
+    }
+
+    public GenerateurCandidatIndexDeuxTokensHashMap(Indexeur<String> indexeur, int seuilTokensCommuns) {
+        if (seuilTokensCommuns < 1) {
+            throw new IllegalArgumentException("Le seuil doit etre >= 1");
+        }
+        if (indexeur == null) {
+            throw new IllegalArgumentException("L'indexeur ne peut pas etre null");
+        }
+
+        this.indexeur = indexeur;
+        this.seuilTokensCommuns = seuilTokensCommuns;
+    }
 
     @Override
     public List<CoupleNom> genererCandidats(Nom nomRecherche, List<Nom> listeSelection) {
-        List<CoupleNom> candidats = new ArrayList<>();
-
-        if (nomRecherche == null || listeSelection == null || !nomRecherche.estTokenise()) {
-            return candidats;
-        }
-
-        Map<String, Set<Nom>> index = construireIndex(listeSelection);
-
-        Map<Nom, Integer> compteurTokensCommuns = new HashMap<>();
-
-        for (String token : nomRecherche.getTokensUniques()) {
-            Set<Nom> nomsAvecCeToken = index.get(token);
-
-            if (nomsAvecCeToken != null) {
-                for (Nom nom : nomsAvecCeToken) {
-                    if (nom == null || nom.equals(nomRecherche)) {
-                        continue;
-                    }
-
-                    compteurTokensCommuns.put(
-                            nom,
-                            compteurTokensCommuns.getOrDefault(nom, 0) + 1
-                    );
-                }
-            }
-        }
-
-        for (Map.Entry<Nom, Integer> entry : compteurTokensCommuns.entrySet()) {
-            Nom nom = entry.getKey();
-            int nombreTokensCommuns = entry.getValue();
-
-            if (nombreTokensCommuns >= SEUIL_TOKENS_COMMUNS) {
-                candidats.add(new CoupleNom(nomRecherche, nom));
-            }
-        }
-
-        return candidats;
-    }
-
-    private Map<String, Set<Nom>> construireIndex(List<Nom> listeSelection) {
-        Map<String, Set<Nom>> index = new HashMap<>();
-
-        for (Nom nom : listeSelection) {
-            if (nom == null || !nom.estTokenise()) {
-                continue;
-            }
-
-            for (String token : nom.getTokensUniques()) {
-                index.putIfAbsent(token, new HashSet<>());
-                index.get(token).add(nom);
-            }
-        }
-
-        return index;
+        return GenerateurCandidatTokenIndexe.generer(
+                nomRecherche,
+                listeSelection,
+                indexeur,
+                seuilTokensCommuns,
+                true
+        );
     }
 }

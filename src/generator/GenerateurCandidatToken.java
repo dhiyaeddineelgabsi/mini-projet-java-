@@ -2,19 +2,39 @@ package generator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import indexeur.Indexeur;
+import indexeur.IndexeurParTokenHashMap;
 import nom.CoupleNom;
 import nom.Nom;
 
-public class  GenerateurCandidatToken implements GenerateurCandidat {
+public class GenerateurCandidatToken implements GenerateurCandidat {
 
     private final int seuilTokensCommuns;
+    private final Indexeur<String> indexeur;
 
     public GenerateurCandidatToken() {
-        this.seuilTokensCommuns = 1; // default: at least 1 token in common
+        this(1);
     }
 
     public GenerateurCandidatToken(int seuilTokensCommuns) {
+        this(new IndexeurParTokenHashMap(), seuilTokensCommuns);
+    }
+
+    public GenerateurCandidatToken(Indexeur<String> indexeur) {
+        this(indexeur, 1);
+    }
+
+    public GenerateurCandidatToken(Indexeur<String> indexeur, int seuilTokensCommuns) {
+        if (seuilTokensCommuns < 1) {
+            throw new IllegalArgumentException("Le seuil doit etre >= 1");
+        }
+        if (indexeur == null) {
+            throw new IllegalArgumentException("L'indexeur ne peut pas etre null");
+        }
+
+        this.indexeur = indexeur;
         this.seuilTokensCommuns = seuilTokensCommuns;
     }
 
@@ -31,22 +51,18 @@ public class  GenerateurCandidatToken implements GenerateurCandidat {
         List<CoupleNom> candidats = new ArrayList<>();
         if (nomsRecherches == null || watchList == null) return candidats;
 
+        Map<String, List<Nom>> indexParToken = indexeur.indexer(watchList);
+
         for (Nom n1 : nomsRecherches) {
-            for (Nom n2 : watchList) {
-                if (compterTokensCommuns(n1, n2) >= seuilTokensCommuns) {
-                    candidats.add(new CoupleNom(n1, n2));
-                }
-            }
+            candidats.addAll(
+                    GenerateurCandidatTokenIndexe.genererDepuisIndex(
+                            n1,
+                            indexParToken,
+                            seuilTokensCommuns,
+                            false
+                    )
+            );
         }
         return candidats;
     }
-
-    private int compterTokensCommuns(Nom n1, Nom n2) {
-        if (n1 == null || n2 == null) return 0;
-        if (!n1.estTokenise() || !n2.estTokenise()) return 0;
-        List<String> t1 = new ArrayList<>(n1.getTokens());
-        t1.retainAll(n2.getTokens());
-        return t1.size();
-    }
 }
-

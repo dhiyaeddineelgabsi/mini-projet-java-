@@ -1,9 +1,9 @@
+package indexeur;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import nom.Nom;
 
@@ -13,14 +13,16 @@ public class IndexeurParTokenHashMap implements Indexeur<String> {
     public Map<String, List<Nom>> indexer(List<Nom> noms) {
         Map<String, List<Nom>> index = new HashMap<>();
 
+        if (noms == null) {
+            return index;
+        }
+
         for (Nom nom : noms) {
-            if (!nom.estTokenise()) {
+            if (nom == null || !nom.estTokenise()) {
                 continue;
             }
 
-            Set<String> tokensUniques = new HashSet<>(nom.getTokens());
-
-            for (String token : tokensUniques) {
+            for (String token : nom.getTokensUniques()) {
                 index.computeIfAbsent(token, k -> new ArrayList<>()).add(nom);
             }
         }

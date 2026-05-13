@@ -1,47 +1,43 @@
 package generator;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import nom.*;
 
+import indexeur.Indexeur;
+import indexeur.IndexeurParTokenHashMap;
 import nom.CoupleNom;
 import nom.Nom;
 
 public class GenerateurCandidatUnTokenCommun implements GenerateurCandidat {
 
-    private Map<String, List<Nom>> indexParToken;
+    private final Indexeur<String> indexeur;
+    private final Map<String, List<Nom>> indexParToken;
+
+    public GenerateurCandidatUnTokenCommun() {
+        this(new IndexeurParTokenHashMap());
+    }
 
     public GenerateurCandidatUnTokenCommun(Map<String, List<Nom>> indexParToken) {
+        this.indexeur = null;
         this.indexParToken = indexParToken;
+    }
+
+    public GenerateurCandidatUnTokenCommun(Indexeur<String> indexeur) {
+        if (indexeur == null) {
+            throw new IllegalArgumentException("L'indexeur ne peut pas etre null");
+        }
+
+        this.indexeur = indexeur;
+        this.indexParToken = null;
     }
 
     @Override
     public List<CoupleNom> genererCandidats(Nom nomRecherche, List<Nom> listeSelectionnee) {
-        List<CoupleNom> candidats = new ArrayList<>();
+        Map<String, List<Nom>> index = indexParToken;
 
-        if (!nomRecherche.estTokenise()) {
-            return candidats;
+        if (index == null) {
+            index = indexeur.indexer(listeSelectionnee);
         }
 
-        Set<Nom> nomsDejaAjoutes = new HashSet<>();
-        Set<String> tokensRechercheUniques = new HashSet<>(nomRecherche.getTokensPretraites());
-
-        for (String token : tokensRechercheUniques) {
-            List<Nom> nomsAvecToken = indexParToken.get(token);
-
-            if (nomsAvecToken == null) {
-                continue;
-            }
-
-            for (Nom target : nomsAvecToken) {
-                if (nomsDejaAjoutes.add(target)) {
-                    candidats.add(new CoupleNom(nomRecherche, target));
-                }
-            }
-        }
-
-        return candidats;
+        return GenerateurCandidatTokenIndexe.genererDepuisIndex(nomRecherche, index, 1, false);
     }
 }

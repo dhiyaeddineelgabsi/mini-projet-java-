@@ -1,3 +1,5 @@
+package indexeur;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +13,16 @@ public class IndexeurParNombreTokensHashMap implements Indexeur<Integer> {
     public Map<Integer, List<Nom>> indexer(List<Nom> noms) {
         Map<Integer, List<Nom>> index = new HashMap<>();
 
+        if (noms == null) {
+            return index;
+        }
+
         for (Nom nom : noms) {
-            if (!nom.estTokenise()) {
+            if (nom == null || !nom.estTokenise()) {
                 continue;
             }
 
             int nombreTokens = nom.getNombreTokens();
-
             index.computeIfAbsent(nombreTokens, k -> new ArrayList<>()).add(nom);
         }
 

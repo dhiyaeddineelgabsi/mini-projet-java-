@@ -1,14 +1,19 @@
+package comparateur;
+
+import java.util.Arrays;
+
 public class ComparateurChaine {
 
     private static final double POIDS_JARO_WINKLER = 0.5;
     private static final double POIDS_LEVENSHTEIN  = 0.3;
     private static final double POIDS_SOUNDEX      = 0.2;
 
-    private static final double SEUIL_JW  = 0.7;
-    private static final double COEF_JW   = 0.1;
-    private static final int    THREE     = 3;
+    private static final double SEUIL_JW = 0.7;
+    private static final double COEF_JW  = 0.1;
+    private static final int THREE = 3;
 
-    public ComparateurChaine() {}
+    public ComparateurChaine() {
+    }
 
     public double comparerChaine(String s1, String s2) {
         if (s1 == null || s2 == null) return 0.0;
@@ -25,7 +30,9 @@ public class ComparateurChaine {
     }
 
     public double jaroWinkler(String s1, String s2) {
+        if (s1 == null || s2 == null) return 0.0;
         if (s1.equals(s2)) return 1.0;
+        if (s1.isEmpty() || s2.isEmpty()) return 0.0;
 
         int[] mtp = matchesJaro(s1, s2);
         double m = mtp[0];
@@ -49,18 +56,18 @@ public class ComparateurChaine {
 
         int range = Math.max(max.length() / 2 - 1, 0);
         int[] matchIndexes = new int[min.length()];
-        java.util.Arrays.fill(matchIndexes, -1);
+        Arrays.fill(matchIndexes, -1);
         boolean[] matchFlags = new boolean[max.length()];
         int matches = 0;
 
         for (int mi = 0; mi < min.length(); mi++) {
             char c1 = min.charAt(mi);
             int start = Math.max(mi - range, 0);
-            int end   = Math.min(mi + range + 1, max.length());
+            int end = Math.min(mi + range + 1, max.length());
             for (int xi = start; xi < end; xi++) {
                 if (!matchFlags[xi] && c1 == max.charAt(xi)) {
                     matchIndexes[mi] = xi;
-                    matchFlags[xi]   = true;
+                    matchFlags[xi] = true;
                     matches++;
                     break;
                 }
@@ -82,7 +89,8 @@ public class ComparateurChaine {
         }
 
         int prefix = 0;
-        for (int i = 0; i < min.length(); i++) {
+        int prefixLimit = Math.min(Math.min(s1.length(), s2.length()), 4);
+        for (int i = 0; i < prefixLimit; i++) {
             if (s1.charAt(i) == s2.charAt(i)) prefix++;
             else break;
         }
@@ -91,7 +99,9 @@ public class ComparateurChaine {
     }
 
     public double levenshteinNormalise(String s1, String s2) {
+        if (s1 == null || s2 == null) return 0.0;
         if (s1.equals(s2)) return 1.0;
+
         int maxLen = Math.max(s1.length(), s2.length());
         if (maxLen == 0) return 1.0;
         return 1.0 - (double) distanceLevenshtein(s1, s2) / maxLen;
@@ -118,7 +128,11 @@ public class ComparateurChaine {
     }
 
     public double soundexScore(String s1, String s2) {
+        if (s1 == null || s2 == null) return 0.0;
+        s1 = s1.trim();
+        s2 = s2.trim();
         if (s1.isEmpty() || s2.isEmpty()) return 0.0;
+
         String t1 = s1.split("\\s+")[0];
         String t2 = s2.split("\\s+")[0];
         return encoderSoundex(t1).equals(encoderSoundex(t2)) ? 1.0 : 0.0;
@@ -126,8 +140,11 @@ public class ComparateurChaine {
 
     public String encoderSoundex(String s) {
         if (s == null || s.isEmpty()) return "0000";
+        s = s.trim();
+        if (s.isEmpty()) return "0000";
+
         char[] x = s.toUpperCase().toCharArray();
-        String output = "" + x[0];
+        StringBuilder output = new StringBuilder().append(x[0]);
 
         for (int i = 0; i < x.length; i++) {
             switch (x[i]) {
@@ -151,11 +168,11 @@ public class ComparateurChaine {
 
         for (int i = 1; i < x.length; i++) {
             if (x[i] != x[i - 1] && x[i] != '0') {
-                output += x[i];
+                output.append(x[i]);
             }
         }
 
-        output = output + "0000";
+        output.append("0000");
         return output.substring(0, 4);
     }
 }

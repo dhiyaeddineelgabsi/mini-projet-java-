@@ -1,4 +1,5 @@
-package Tokenizeurs;
+package tokenizeurs;
+
 import java.util.List;
 
 public interface ITokeniseur {

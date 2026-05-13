@@ -1,14 +1,14 @@
 import java.util.List;
 import java.util.Scanner;
 
-import Tokenizeurs.ITokeniseur;
-import Tokenizeurs.TokeniseurNGramme;
-import Tokenizeurs.TokeniseurSimple;
 import nom.Nom;
 import pretraiteur.IPretraiteurChaine;
 import pretraiteur.IPretraiteurNom;
 import pretraiteur.PretraiteurChaine;
 import pretraiteur.PretraiteurNom;
+import tokenizeurs.ITokeniseur;
+import tokenizeurs.TokeniseurNGramme;
+import tokenizeurs.TokeniseurSimple;
 
 public class MainTokens {
     public static void main(String[] args) {

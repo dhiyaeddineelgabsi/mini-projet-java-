@@ -1,10 +1,10 @@
 package pretraiteur;
 import java.util.Scanner;
 
-import Tokenizeurs.ITokeniseur;
-import Tokenizeurs.TokeniseurNGramme;
-import Tokenizeurs.TokeniseurSimple;
 import nom.Nom;
+import tokenizeurs.ITokeniseur;
+import tokenizeurs.TokeniseurNGramme;
+import tokenizeurs.TokeniseurSimple;
 
 public class MainPretraiteur {
     public static void main(String[] args) {

@@ -1,9 +1,12 @@
+package comparateur;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import Tokenizeurs.ITokeniseur;
-import Tokenizeurs.TokeniseurSimple;
 import nom.Nom;
+import tokenizeurs.ITokeniseur;
+import tokenizeurs.TokeniseurSimple;
 
 public class ComparateurNom {
 
@@ -11,16 +14,21 @@ public class ComparateurNom {
     private final ITokeniseur tokeniseur;
 
     public ComparateurNom() {
-        this.comparateurChaine = new ComparateurChaine();
-        this.tokeniseur = new TokeniseurSimple();
+        this(new ComparateurChaine(), new TokeniseurSimple());
     }
 
     public ComparateurNom(ComparateurChaine comparateurChaine) {
-        this.comparateurChaine = comparateurChaine;
-        this.tokeniseur = new TokeniseurSimple();
+        this(comparateurChaine, new TokeniseurSimple());
     }
 
     public ComparateurNom(ComparateurChaine comparateurChaine, ITokeniseur tokeniseur) {
+        if (comparateurChaine == null) {
+            throw new IllegalArgumentException("Le comparateur de chaine ne peut pas etre null");
+        }
+        if (tokeniseur == null) {
+            throw new IllegalArgumentException("Le tokeniseur ne peut pas etre null");
+        }
+
         this.comparateurChaine = comparateurChaine;
         this.tokeniseur = tokeniseur;
     }
@@ -34,8 +42,8 @@ public class ComparateurNom {
         if (s1.isEmpty() || s2.isEmpty()) return 0.0;
 
         double scoreChaine = comparateurChaine.comparerChaine(s1, s2);
-        double scoreSort   = tokenSortScore(n1, n2);
-        double scoreSet    = tokenSetScore(n1, n2);
+        double scoreSort = tokenSortScore(n1, n2);
+        double scoreSet = tokenSetScore(n1, n2);
 
         return 0.6 * scoreChaine + 0.25 * scoreSort + 0.15 * scoreSet;
     }
@@ -47,12 +55,14 @@ public class ComparateurNom {
     }
 
     public double tokenSortScore(Nom n1, Nom n2) {
+        if (n1 == null || n2 == null) return 0.0;
+
         List<String> t1 = resolveTokens(n1);
         List<String> t2 = resolveTokens(n2);
         if (t1.isEmpty() || t2.isEmpty()) return 0.0;
 
-        java.util.Collections.sort(t1);
-        java.util.Collections.sort(t2);
+        Collections.sort(t1);
+        Collections.sort(t2);
 
         String s1 = String.join(" ", t1);
         String s2 = String.join(" ", t2);
@@ -60,6 +70,8 @@ public class ComparateurNom {
     }
 
     public double tokenSetScore(Nom n1, Nom n2) {
+        if (n1 == null || n2 == null) return 0.0;
+
         List<String> t1 = new ArrayList<>(resolveTokens(n1));
         List<String> t2 = new ArrayList<>(resolveTokens(n2));
         if (t1.isEmpty() || t2.isEmpty()) return 0.0;
@@ -73,13 +85,17 @@ public class ComparateurNom {
         List<String> reste2 = new ArrayList<>(t2);
         reste2.removeAll(intersection);
 
-        java.util.Collections.sort(intersection);
-        java.util.Collections.sort(reste1);
-        java.util.Collections.sort(reste2);
+        Collections.sort(intersection);
+        Collections.sort(reste1);
+        Collections.sort(reste2);
 
-        String sInter   = String.join(" ", intersection);
+        String sInter = String.join(" ", intersection);
         String sInterR1 = (sInter + " " + String.join(" ", reste1)).trim();
         String sInterR2 = (sInter + " " + String.join(" ", reste2)).trim();
+
+        if (sInter.isEmpty()) {
+            return comparateurChaine.comparerChaine(sInterR1, sInterR2);
+        }
 
         double score1 = comparateurChaine.comparerChaine(sInter, sInterR1);
         double score2 = comparateurChaine.comparerChaine(sInter, sInterR2);
@@ -90,6 +106,7 @@ public class ComparateurNom {
 
     private List<String> resolveTokens(Nom n) {
         if (n.estTokenise()) return new ArrayList<>(n.getTokens());
+
         String chaine = resolveChaine(n);
         return tokeniseur.tokeniser(chaine);
     }
@@ -100,7 +117,7 @@ public class ComparateurNom {
         String s1 = resolveChaine(n1);
         String s2 = resolveChaine(n2);
 
-        double jw  = comparateurChaine.jaroWinkler(s1, s2);
+        double jw = comparateurChaine.jaroWinkler(s1, s2);
         double lev = comparateurChaine.levenshteinNormalise(s1, s2);
         double sdx = comparateurChaine.soundexScore(s1, s2);
         double global = comparateurChaine.comparerChaine(s1, s2);

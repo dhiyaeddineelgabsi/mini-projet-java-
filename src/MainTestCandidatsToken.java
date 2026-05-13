@@ -8,6 +8,9 @@ import generator.GenerateurCandidat;
 import generator.GenerateurCandidatNombreTokensHashMap;
 import generator.GenerateurCandidatNombreTokensTreeMap;
 import generator.GenerateurCandidatUnTokenCommun;
+import indexeur.IndexeurParNombreTokensHashMap;
+import indexeur.IndexeurParNombreTokensTreeMap;
+import indexeur.IndexeurParTokenHashMap;
 import nom.CoupleNom;
 import nom.Nom;
 

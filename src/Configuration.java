@@ -1,6 +1,9 @@
 import generator.GenerateurCandidat;
 import generator.GenerateurCandidatToken;
+import comparateur.ComparateurNom;
 import pretraiteur.PretraiteurNom;
+import selectionneur.SelectionneurCandidat;
+import selectionneur.SelectionneurCandidatSeuil;
 
 public class Configuration {
 

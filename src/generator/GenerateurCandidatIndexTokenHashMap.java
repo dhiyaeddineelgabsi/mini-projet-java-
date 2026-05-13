@@ -1,60 +1,36 @@
 package generator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
+import indexeur.Indexeur;
+import indexeur.IndexeurParTokenHashMap;
 import nom.CoupleNom;
 import nom.Nom;
 
 public class GenerateurCandidatIndexTokenHashMap implements GenerateurCandidat {
 
-    @Override
-    public List<CoupleNom> genererCandidats(Nom nomRecherche, List<Nom> listeSelection) {
-        List<CoupleNom> candidats = new ArrayList<>();
+    private final Indexeur<String> indexeur;
 
-        if (nomRecherche == null || listeSelection == null || !nomRecherche.estTokenise()) {
-            return candidats;
-        }
-
-        Map<String, Set<Nom>> index = construireIndex(listeSelection);
-
-        Set<Nom> nomsCandidats = new HashSet<>();
-
-        for (String token : nomRecherche.getTokensUniques()) {
-            Set<Nom> nomsAvecCeToken = index.get(token);
-
-            if (nomsAvecCeToken != null) {
-                nomsCandidats.addAll(nomsAvecCeToken);
-            }
-        }
-
-        for (Nom nom : nomsCandidats) {
-            if (nom != null && nom != nomRecherche) {
-                candidats.add(new CoupleNom(nomRecherche, nom));
-            }
-        }
-
-        return candidats;
+    public GenerateurCandidatIndexTokenHashMap() {
+        this(new IndexeurParTokenHashMap());
     }
 
-    private Map<String, Set<Nom>> construireIndex(List<Nom> listeSelection) {
-        Map<String, Set<Nom>> index = new HashMap<>();
-
-        for (Nom nom : listeSelection) {
-            if (nom == null || !nom.estTokenise()) {
-                continue;
-            }
-
-            for (String token : nom.getTokensUniques()) {
-                index.putIfAbsent(token, new HashSet<>());
-                index.get(token).add(nom);
-            }
+    public GenerateurCandidatIndexTokenHashMap(Indexeur<String> indexeur) {
+        if (indexeur == null) {
+            throw new IllegalArgumentException("L'indexeur ne peut pas etre null");
         }
 
-        return index;
+        this.indexeur = indexeur;
+    }
+
+    @Override
+    public List<CoupleNom> genererCandidats(Nom nomRecherche, List<Nom> listeSelection) {
+        return GenerateurCandidatTokenIndexe.generer(
+                nomRecherche,
+                listeSelection,
+                indexeur,
+                1,
+                true
+        );
     }
 }
