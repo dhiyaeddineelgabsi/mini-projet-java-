@@ -1,6 +1,7 @@
 package pretraiteur;
 import java.util.ArrayList;
 import java.util.List;
+import nom.Nom; 
 public class PretraiteurNom implements IPretraiteurNom {
 
     private final IPretraiteurChaine pretraiteurChaine;

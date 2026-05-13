@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import nom.*;
 
 public class GenerateurCandidatUnTokenCommun implements GenerateurCandidat {
 
@@ -22,7 +23,7 @@ public class GenerateurCandidatUnTokenCommun implements GenerateurCandidat {
         }
 
         Set<Nom> nomsDejaAjoutes = new HashSet<>();
-        Set<String> tokensRechercheUniques = new HashSet<>(nomRecherche.getTokens());
+        Set<String> tokensRechercheUniques = new HashSet<>(nomRecherche.getTokensPretraites());
 
         for (String token : tokensRechercheUniques) {
             List<Nom> nomsAvecToken = indexParToken.get(token);
