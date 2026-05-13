@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import Tokenizeurs.ITokeniseur;
+
 public class TokeniseurNGramme implements ITokeniseur {
 
     private final int n;

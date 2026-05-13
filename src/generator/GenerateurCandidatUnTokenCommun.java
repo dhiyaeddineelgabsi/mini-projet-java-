@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import nom.CoupleNom;
+import nom.Nom;
+
 public class GenerateurCandidatUnTokenCommun implements GenerateurCandidat {
 
     private Map<String, List<Nom>> indexParToken;

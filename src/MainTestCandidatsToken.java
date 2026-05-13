@@ -1,9 +1,14 @@
-package generator;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import generator.GenerateurCandidat;
+import generator.GenerateurCandidatNombreTokensHashMap;
+import generator.GenerateurCandidatNombreTokensTreeMap;
+import generator.GenerateurCandidatUnTokenCommun;
+import nom.CoupleNom;
+import nom.Nom;
 
 public class MainTestCandidatsToken {
 

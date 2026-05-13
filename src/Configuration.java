@@ -1,4 +1,6 @@
-
+import generator.GenerateurCandidat;
+import generator.GenerateurCandidatToken;
+import pretraiteur.PretraiteurNom;
 
 public class Configuration {
 
@@ -22,7 +24,7 @@ public class Configuration {
         this.generateur = generateur;
         this.selectionneur = new SelectionneurCandidatSeuil();
         this.exporteur = new ExporteurCSV("alertes.csv");
-        this.rapporteur = new RapporteurConsole();
+        this.rapporteur = new Afficheur();
         this.cheminCSV = "";
         this.langue = "fr";
     }
@@ -55,7 +57,7 @@ public class Configuration {
 
     public static Configuration defaut() {
         Configuration config = new Configuration(
-                new ComparateurNomParMots(),
+                new ComparateurNom(),
                 0.75,
                 new PretraiteurNom(),
                 new GenerateurCandidatToken()
@@ -64,7 +66,7 @@ public class Configuration {
         config.setN(10);
         config.setPourcentage(0.5);
         config.setExporteur(new ExporteurCSV("alertes.csv"));
-        config.setRapporteur(new RapporteurConsole());
+        config.setRapporteur(new Afficheur());
         config.setCheminCSV("");
         config.setLangue("fr");
         return config;

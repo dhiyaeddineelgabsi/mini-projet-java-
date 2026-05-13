@@ -3,6 +3,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import nom.Nom;
 public class LecteurCSV implements Lecteur{
     public List<Nom> lireFichier(String filepath) {
         List<Nom> noms = new ArrayList<>();

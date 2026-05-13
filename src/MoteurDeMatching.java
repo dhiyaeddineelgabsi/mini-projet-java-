@@ -1,5 +1,8 @@
 import java.util.List;
 
+import nom.Nom;
+import nom.TripletNom;
+
 public class MoteurDeMatching {
 
     private Configuration config;
@@ -18,6 +21,9 @@ public class MoteurDeMatching {
 
     public void setSeuil(double seuil) {}
 
-    public Configuration getConfig() {}
+    public Configuration getConfig() {
+        return config;
+    }
+}
 
 

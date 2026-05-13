@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import Tokenizeurs.ITokeniseur;
+import Tokenizeurs.TokeniseurSimple;
+import nom.Nom;
+
 public class ComparateurNom {
 
     private final ComparateurChaine comparateurChaine;
