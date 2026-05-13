@@ -52,6 +52,9 @@ public class Nom {
     public boolean estTokenise() {
         return tokens != null && !tokens.isEmpty();
     }
+    public int getNombreTokens() {
+        return tokens.size();
+    }
 
     @Override
     public String toString() {
