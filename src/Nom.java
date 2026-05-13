@@ -1,56 +1,94 @@
+package nom;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 public class Nom {
-    private int id;
-    private String nom;
-    private List<String> nomPretraite = new ArrayList<>();
-    private List<String> tokens = new ArrayList<>();
-    private String sourceList;
+    private String id;
+    private String valeur;
+    private String nomPretraite;
+    private List<String> tokensPretraites;
+    private Set<String> tokensUniques;
+    private String source;
 
-    public Nom(int id, String nom) {
+    public Nom(String id, String valeur) {
+        this(id, valeur, "");
+    }
+
+    public Nom(String id, String valeur, String source) {
         this.id = id;
-        this.nom = nom;
-        if (nom != null) this.nomPretraite.add(nom);
+        this.valeur = valeur;
+        this.source = source;
+        this.nomPretraite = "";
+        this.tokensPretraites = new ArrayList<>();
+        this.tokensUniques = new HashSet<>();
     }
-    public Nom(int id, String nom, String sourceList) {
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
-        this.nom = nom;
-        this.sourceList=sourceList;
-        if (nom != null) this.nomPretraite.add(nom);
     }
 
-    public int getId() { return id; }
-
-    public String getNom() { return nom; }
-
-    public String getSourceList() { return sourceList; }
-
-    // Derniere version pretraitee, ou null si vide.
-    public String getDernierNomPretraite() {
-        if (nomPretraite.isEmpty()) return null;
-        return nomPretraite.get(nomPretraite.size() - 1);
+    public String getValeur() {
+        return valeur;
     }
 
-    public List<String> getNomPretraite() { return nomPretraite; }
-
-    public List<String> getTokens() {
-        return tokens;
+    public void setValeur(String valeur) {
+        this.valeur = valeur;
     }
 
-    public void setSourceList(String sourceList) {
-        this.sourceList = sourceList;
+    public String getNomPretraite() {
+        return nomPretraite;
     }
 
-    public void addNomPretraite(String nomNormalise) {
-        if (nomNormalise != null) this.nomPretraite.add(nomNormalise);
+    public void setNomPretraite(String nomPretraite) {
+        this.nomPretraite = nomPretraite;
     }
 
-    public void setTokens(List<String> tokens) {
-        this.tokens = tokens;
+    public List<String> getTokensPretraites() {
+        return tokensPretraites;
+    }
+
+    public void setTokensPretraites(List<String> tokensPretraites) {
+        if (tokensPretraites == null) {
+            this.tokensPretraites = new ArrayList<>();
+        } else {
+            this.tokensPretraites = new ArrayList<>(tokensPretraites);
+        }
+        this.tokensUniques = new HashSet<>(this.tokensPretraites);
+    }
+
+    public Set<String> getTokensUniques() {
+        return tokensUniques;
+    }
+
+    public void setTokensUniques(Set<String> tokensUniques) {
+        if (tokensUniques == null) {
+            this.tokensUniques = new HashSet<>();
+        } else {
+            this.tokensUniques = new HashSet<>(tokensUniques);
+        }
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public boolean estPretraite() {
+        return nomPretraite != null && !nomPretraite.isEmpty();
     }
 
     public boolean estTokenise() {
-        return tokens != null && !tokens.isEmpty();
+        return tokensPretraites != null && !tokensPretraites.isEmpty();
     }
     public int getNombreTokens() {
         return tokens.size();
@@ -58,25 +96,8 @@ public class Nom {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Nom{id=").append(id)
-          .append(", nom='").append(nom).append("'")
-          .append(", pretraite='").append(getDernierNomPretraite()).append("'");
-        if (!tokens.isEmpty()) {
-            sb.append(", tokens=").append(tokens);
-        }
-        sb.append("}");
-        return sb.toString();
+        return "Nom{id='" + id + "', valeur='" + valeur
+                + "', source='" + source + "', nomPretraite='"
+                + nomPretraite + "'}";
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Nom)) return false;
-        Nom autre = (Nom) o;
-        return id == autre.id;
-    }
-
-    @Override
-    public int hashCode() { return Integer.hashCode(id); }
 }
