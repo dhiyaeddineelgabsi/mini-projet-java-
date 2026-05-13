@@ -1,3 +1,4 @@
+package pretraiteur;
 public class EspacesPretraiteur implements IPretraiteurChaine {
     @Override
     public String pretraiter(String chaine) {

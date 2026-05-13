@@ -1,8 +1,10 @@
+package pretraiteur;
 import java.util.ArrayList;
 import java.util.List;
 
 import Tokenizeurs.ITokeniseur;
 import Tokenizeurs.TokeniseurSimple;
+import nom.Nom;
 public class PretraiteurNom implements IPretraiteurNom {
 
     private final IPretraiteurChaine pretraiteurChaine;
@@ -27,7 +29,7 @@ public class PretraiteurNom implements IPretraiteurNom {
     public Nom pretraiter(Nom nom) {
         if (nom == null) return null;
 
-        String brut = nom.getNom();
+        String brut = nom.getValeur();
         String normalise = pretraiteurChaine.pretraiter(brut);
 
         nom.setNomPretraite(normalise);
@@ -49,3 +51,5 @@ public class PretraiteurNom implements IPretraiteurNom {
         return resultat;
     }
 }
+
+

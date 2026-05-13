@@ -1,3 +1,4 @@
+package pretraiteur;
 public class PonctuationPretraiteur implements IPretraiteurChaine {
     @Override
     public String pretraiter(String chaine) {
