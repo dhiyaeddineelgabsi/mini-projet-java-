@@ -6,7 +6,7 @@ import java.util.List;
 import nom.CoupleNom;
 import nom.Nom;
 
-public class GenerateurCandidatToken implements GenerateurCandidat {
+public class  GenerateurCandidatToken implements GenerateurCandidat {
 
     private final int seuilTokensCommuns;
 
