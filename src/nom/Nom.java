@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Objects;
 
 public class Nom {
     private String id;
@@ -60,6 +61,7 @@ public class Nom {
         } else {
             this.tokensPretraites = new ArrayList<>(tokensPretraites);
         }
+
         this.tokensUniques = new HashSet<>(this.tokensPretraites);
     }
 
@@ -90,14 +92,34 @@ public class Nom {
     public boolean estTokenise() {
         return tokensPretraites != null && !tokensPretraites.isEmpty();
     }
+
     public int getNombreTokens() {
-        return tokens.size();
+        if (tokensPretraites == null) {
+            return 0;
+        }
+        return tokensPretraites.size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof Nom)) return false;
+
+        Nom autre = (Nom) o;
+
+        return Objects.equals(this.id, autre.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "Nom{id='" + id + "', valeur='" + valeur
                 + "', source='" + source + "', nomPretraite='"
-                + nomPretraite + "'}";
+                + nomPretraite + "', tokens=" + tokensPretraites + "}";
     }
 }

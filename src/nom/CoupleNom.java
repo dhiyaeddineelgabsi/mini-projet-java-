@@ -1,3 +1,5 @@
+package nom;
+
 public class CoupleNom {
     private Nom nom1;
     private Nom nom2;
@@ -7,8 +9,6 @@ public class CoupleNom {
         this.nom2 = nom2;
     }
 
-    //Getters lehna
-
     public Nom getNom1() {
         return nom1;
     }
@@ -17,12 +17,11 @@ public class CoupleNom {
         return nom2;
     }
 
-    //Setters
-    public void setNom1(Nom n1){
-        this.nom1=n1;
-    }
-    public void setNom2(Nom n2){
-        this.nom2=n2;
+    public void setNom1(Nom n1) {
+        this.nom1 = n1;
     }
 
+    public void setNom2(Nom n2) {
+        this.nom2 = n2;
+    }
 }

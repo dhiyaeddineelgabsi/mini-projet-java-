@@ -1,13 +1,15 @@
+package generator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
-public class GenerateurCandidatNombreTokensHashMap implements GenerateurCandidat {
+public class GenerateurCandidatNombreTokensTreeMap implements GenerateurCandidat {
 
-    private Map<Integer, List<Nom>> index;
+    private TreeMap<Integer, List<Nom>> index;
     private int marge;
 
-    public GenerateurCandidatNombreTokensHashMap(Map<Integer, List<Nom>> index, int marge) {
+    public GenerateurCandidatNombreTokensTreeMap(TreeMap<Integer, List<Nom>> index, int marge) {
         if (marge < 0) {
             throw new IllegalArgumentException("La marge doit être >= 0");
         }
@@ -29,13 +31,9 @@ public class GenerateurCandidatNombreTokensHashMap implements GenerateurCandidat
         int min = Math.max(0, nbTokensRecherche - marge);
         int max = nbTokensRecherche + marge;
 
-        for (int nbTokens = min; nbTokens <= max; nbTokens++) {
-            List<Nom> noms = index.get(nbTokens);
+        Map<Integer, List<Nom>> sousIndex = index.subMap(min, true, max, true);
 
-            if (noms == null) {
-                continue;
-            }
-
+        for (List<Nom> noms : sousIndex.values()) {
             for (Nom target : noms) {
                 candidats.add(new CoupleNom(nomRecherche, target));
             }

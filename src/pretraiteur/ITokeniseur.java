@@ -1,3 +1,4 @@
+package pretraiteur;
 import java.util.List;
 
 public interface ITokeniseur {

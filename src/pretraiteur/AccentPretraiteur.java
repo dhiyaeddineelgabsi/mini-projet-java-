@@ -1,3 +1,4 @@
+package pretraiteur;
 import java.text.Normalizer;
 
 public class AccentPretraiteur implements IPretraiteurChaine {

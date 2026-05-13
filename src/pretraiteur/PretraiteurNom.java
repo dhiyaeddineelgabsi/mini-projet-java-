@@ -1,4 +1,4 @@
-
+package pretraiteur;
 import java.util.ArrayList;
 import java.util.List;
 public class PretraiteurNom implements IPretraiteurNom {

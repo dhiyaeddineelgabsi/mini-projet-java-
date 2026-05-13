@@ -1,3 +1,4 @@
+package pretraiteur;
 import java.util.Scanner;
 
 public class MainPretraiteur {
