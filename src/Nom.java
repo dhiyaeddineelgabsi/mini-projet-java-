@@ -1,9 +1,13 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 public class Nom {
     private int id;
     private String nom;
     private List<String> nomPretraite = new ArrayList<>();
+    private List<String> tokensPretraites = new ArrayList<>();
+    private Set<String> tokensUniques = new HashSet<>();
     private String sourceList;
 
     public Nom(int id, String nom) {
@@ -32,12 +36,37 @@ public class Nom {
 
     public List<String> getNomPretraite() { return nomPretraite; }
 
+    public void setNomPretraite(String nomNormalise) {
+        addNomPretraite(nomNormalise);
+    }
+
     public void setSourceList(String sourceList) {
         this.sourceList = sourceList;
     }
 
     public void addNomPretraite(String nomNormalise) {
         if (nomNormalise != null) this.nomPretraite.add(nomNormalise);
+    }
+
+    public List<String> getTokensPretraites() {
+        return tokensPretraites;
+    }
+
+    public void setTokensPretraites(List<String> tokensPretraites) {
+        if (tokensPretraites == null) {
+            this.tokensPretraites = new ArrayList<>();
+        } else {
+            this.tokensPretraites = new ArrayList<>(tokensPretraites);
+        }
+        this.tokensUniques = new HashSet<>(this.tokensPretraites);
+    }
+
+    public Set<String> getTokensUniques() {
+        return tokensUniques;
+    }
+
+    public boolean estTokenise() {
+        return tokensPretraites != null && !tokensPretraites.isEmpty();
     }
 
     @Override
