@@ -18,6 +18,10 @@ public class Nom {
         this(id, valeur, "");
     }
 
+    public Nom(int id, String valeur) {
+        this(String.valueOf(id), valeur, "");
+    }
+
     public Nom(String id, String valeur, String source) {
         this.id = id;
         this.valeur = valeur;
@@ -25,6 +29,10 @@ public class Nom {
         this.nomPretraite = "";
         this.tokensPretraites = new ArrayList<>();
         this.tokensUniques = new HashSet<>();
+    }
+
+    public Nom(int id, String valeur, String source) {
+        this(String.valueOf(id), valeur, source);
     }
 
     public String getId() {
@@ -39,11 +47,23 @@ public class Nom {
         return valeur;
     }
 
+    public String getNom() {
+        return valeur;
+    }
+
     public void setValeur(String valeur) {
         this.valeur = valeur;
     }
 
+    public void setNom(String valeur) {
+        this.valeur = valeur;
+    }
+
     public String getNomPretraite() {
+        return nomPretraite;
+    }
+
+    public String getDernierNomPretraite() {
         return nomPretraite;
     }
 
@@ -55,6 +75,10 @@ public class Nom {
         return tokensPretraites;
     }
 
+    public List<String> getTokens() {
+        return tokensPretraites;
+    }
+
     public void setTokensPretraites(List<String> tokensPretraites) {
         if (tokensPretraites == null) {
             this.tokensPretraites = new ArrayList<>();
@@ -63,6 +87,10 @@ public class Nom {
         }
 
         this.tokensUniques = new HashSet<>(this.tokensPretraites);
+    }
+
+    public void setTokens(List<String> tokens) {
+        setTokensPretraites(tokens);
     }
 
     public Set<String> getTokensUniques() {
@@ -78,6 +106,10 @@ public class Nom {
     }
 
     public String getSource() {
+        return source;
+    }
+
+    public String getSourceList() {
         return source;
     }
 

@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import nom.*;
 
+import nom.CoupleNom;
+import nom.Nom;
+
 public class GenerateurCandidatNombreTokensHashMap implements GenerateurCandidat {
 
     private Map<Integer, List<Nom>> index;

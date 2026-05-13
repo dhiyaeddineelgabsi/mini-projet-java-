@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.TreeMap;
 import nom.*;
 
+import nom.CoupleNom;
+import nom.Nom;
+
 public class GenerateurCandidatNombreTokensTreeMap implements GenerateurCandidat {
 
     private TreeMap<Integer, List<Nom>> index;

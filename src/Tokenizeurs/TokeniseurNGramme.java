@@ -1,7 +1,6 @@
+package Tokenizeurs;
 import java.util.ArrayList;
 import java.util.List;
-
-import Tokenizeurs.ITokeniseur;
 
 public class TokeniseurNGramme implements ITokeniseur {
 
@@ -19,7 +18,6 @@ public class TokeniseurNGramme implements ITokeniseur {
     public List<String> tokeniser(String chaine) {
         if (chaine == null || chaine.isEmpty()) return new ArrayList<>();
         List<String> ngrams = new ArrayList<>();
-        // apply ngrams on each token separately
         String[] mots = chaine.trim().split("\\s+");
         for (String mot : mots) {
             if (mot.length() < n) {
@@ -33,4 +31,3 @@ public class TokeniseurNGramme implements ITokeniseur {
         return ngrams;
     }
 }
-

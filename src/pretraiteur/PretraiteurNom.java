@@ -2,6 +2,10 @@ package pretraiteur;
 import java.util.ArrayList;
 import java.util.List;
 import nom.Nom; 
+
+import Tokenizeurs.ITokeniseur;
+import Tokenizeurs.TokeniseurSimple;
+
 public class PretraiteurNom implements IPretraiteurNom {
 
     private final IPretraiteurChaine pretraiteurChaine;
@@ -26,19 +30,22 @@ public class PretraiteurNom implements IPretraiteurNom {
     public Nom pretraiter(Nom nom) {
         if (nom == null) return null;
 
-        String brut = nom.getNom();
+        String brut = nom.getValeur();
         String normalise = pretraiteurChaine.pretraiter(brut);
-        nom.addNomPretraite(normalise);
+
+        nom.setNomPretraite(normalise);
 
         List<String> tokens = tokeniseur.tokeniser(normalise);
-        nom.setTokens(tokens);
-
+        nom.setTokensPretraites(tokens);
         return nom;
     }
 
     @Override
     public List<Nom> pretraiterListe(List<Nom> noms) {
         List<Nom> resultat = new ArrayList<>();
+        if (noms == null) {
+            return resultat;
+        }
         for (Nom n : noms) {
             resultat.add(pretraiter(n));
         }

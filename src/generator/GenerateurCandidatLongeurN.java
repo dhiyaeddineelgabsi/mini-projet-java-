@@ -2,6 +2,9 @@ package generator;
 import java.util.ArrayList;
 import java.util.List;
 
+import nom.CoupleNom;
+import nom.Nom;
+
 public class GenerateurCandidatLongeurN implements GenerateurCandidat {
     private int n;
     public GenerateurCandidatLongeurN(int n) {

@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import generator.GenerateurCandidatCartesien;
+import generator.GenerateurCandidatLongeurN;
+import nom.CoupleNom;
+import nom.Nom;
+
 public class MainTesterGenerateur {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

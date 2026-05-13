@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 import nom.*;
 
+import nom.CoupleNom;
+import nom.Nom;
+
 public class GenerateurCandidatCartesien implements GenerateurCandidat {
 
     public List<CoupleNom> genererCandidats(Nom nomRecherche, List<Nom> listselectionne) {
